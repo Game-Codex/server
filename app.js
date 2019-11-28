@@ -12,7 +12,7 @@ app.use(cors())
 app.use(morgan('dev'))
 
 app.use('/', require('./routes'))
-// app.use('*')
-// app.use(require('./middlewares/errorHandler'))
+app.use('*', require('./middlewares/404'))
+app.use(require('./middlewares/errorHandler'))
 
 module.exports = app
