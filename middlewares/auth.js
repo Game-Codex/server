@@ -2,7 +2,6 @@ const jwt = require('jsonwebtoken')
 const User = require('../models').User
 
 function auth(req, res, next) {
-
     if (req.headers.access_token) {
         let payload = jwt.verify(req.headers.access_token, process.env.JW_SECRET)
         User.findOne({

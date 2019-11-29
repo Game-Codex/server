@@ -33,7 +33,6 @@ class UserController {
            }
            else {
               return User.create({
-                 name: googlePayload.name,
                  email: googlePayload.email,
                  gSignUp: true
               })
@@ -55,14 +54,13 @@ class UserController {
     }
 
     static register(req, res, next) {
-        // console.log(req.body, '<<')
         User.create({
-            name: req.body.name,
+            username: req.body.username,
             email: req.body.email,
             password: req.body.password
         }).then(user => {
             console.log('successfully created')
-            res.status(201).json({ msg: 'successfully created'})
+            res.status(201).json({ message: 'successfully created'})
         }).catch(next)
     }
 
@@ -72,10 +70,8 @@ class UserController {
         const { email, password } = req.body
         User.findOne({ email: email })
         .then(user => {
-            console.log(user)
             if (user) {
                 if (verify(password, user.password)) {
-                    console.log('---')
                     payload._id = user._id
                     payload.email = user.email
                     token = jwt.sign(payload, process.env.JW_SECRET);
