@@ -22,21 +22,35 @@ class PokemonController {
       })
    }
 
-   static getCardsByTypes(req, res, next) {
+   static getCardsByType(req, res, next) {
 
       let page = 1
-      
+      let type = ''
 
-      axios.get(`${process.env.POKEMON_URL}/cards?types=`)
+      if(req.params.type != `all`) type = req.params.type
+
+      axios.get(`${process.env.POKEMON_URL}/cards?types=${type}`)
       .then(({data}) => {
 
-         res.status(200).json(pokemonHelper.cardsPagination(data.cards, page))
+         res.status(200).json(data.cards)
       })
       .catch(error => {
 
          console.log(error)
          next(error)
       })
+   }
+
+   static getRandomizedTypes(req, res, next) {
+
+
+      let numOfTypes = 1;
+
+      if(req.params.numOfTypes) numOfTypes = req.params.numOfTypes
+
+      console.log(numOfTypes, 'aisnfasiofnsaiongfasiongfasi')
+
+      res.status(200).json(pokemonHelper.getSetofTypes(numOfTypes))
    }
 }
 
