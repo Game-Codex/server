@@ -41,6 +41,22 @@ class PokemonController {
       })
    }
 
+   static searchCards(req, res, next) {
+
+      const name = req.body.name.split('%20').join(' ')
+
+      axios.get(`${process.env.POKEMON_URL}/cards?name=${name}`)
+      .then(({data}) => {
+
+         res.status(200).json(data.cards)
+      })
+      .catch(error => {
+
+         console.log(error)
+         next(error)
+      })
+   }
+
    static getRandomizedTypes(req, res, next) {
 
 
@@ -48,9 +64,21 @@ class PokemonController {
 
       if(req.params.numOfTypes) numOfTypes = req.params.numOfTypes
 
-      console.log(numOfTypes, 'aisnfasiofnsaiongfasiongfasi')
-
       res.status(200).json(pokemonHelper.getSetofTypes(numOfTypes))
+   }
+
+   static getCardDetail(req, res, next) {
+
+      axios.get(`${process.env.POKEMON_URL}/cards/${req.params.id}`)
+      .then(({data}) => {
+
+         res.status(200).json(data.card)
+      })
+      .catch(error => {
+
+         console.log(error)
+         next(error)
+      })
    }
 }
 
