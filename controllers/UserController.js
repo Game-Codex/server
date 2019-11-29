@@ -23,6 +23,7 @@ class UserController {
         .then(user => {
            if(user) {
               const payload = {id: user._id}
+            //   return jwt.sign(payload, process.env.JW_SECRET)
               return new Promise((resolve, reject) => {
                  jwt.sign(payload, process.env.JW_SECRET, (jwtSignError, jwToken) => {
                     if(jwtSignError) reject(jwtSignError)
@@ -73,7 +74,7 @@ class UserController {
         .then(user => {
             console.log(user)
             if (user) {
-                if (verify(req.body.password, user.password)) {
+                if (verify(password, user.password)) {
                     console.log('---')
                     payload._id = user._id
                     payload.email = user.email
